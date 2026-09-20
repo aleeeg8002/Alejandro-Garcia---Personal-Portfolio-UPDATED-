@@ -66,14 +66,18 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateStory }) => {
               <span>Contact Me</span>
             </a>
 
-        <a 
-  href="/Alejandro_Garcia_Resume.pdf" 
+ <a 
+  href={`${import.meta.env.BASE_URL}Alejandro_Garcia_Resume.pdf`} 
   target="_blank"
   rel="noopener noreferrer"
+  download="Alejandro_Garcia_Resume.pdf"
   className="btn-secondary group inline-flex items-center"
   aria-label="View and Download PDF Resume"
   id="hero-download-resume-btn"
 >
+  <Download className="w-4 h-4 mr-2 text-[#C8A84E]" />
+  <span>Resume (PDF)</span>
+</a>
               <Download className="w-4 h-4 mr-2 text-[#C8A84E]" />
               <span>Resume (PDF)</span>
             </a>
