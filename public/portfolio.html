@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alejandro Garcia — Software Developer &amp; Cloud Technologist</title>
+  <meta name="description" content="High-end, minimalist personal portfolio for Alejandro Garcia, Software Developer & Cloud Technologist.">
+  <meta name="author" content="Alejandro Garcia">
+
+  <!-- Google Fonts: Inter for refined, high-end sans-serif typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & DESIGN SYSTEM TOKENS
+       ========================================================================== */
+    :root {
+      /* Palette definition strictly matching design requirements */
+      --bg-graphite: #23252E;          /* Deep Graphite background */
+      --bg-card: #282A34;              /* Subtle elevated container background */
+      --text-warm-white: #FDFDFD;      /* Primary text and headings */
+      --text-light-silver: #C0C0C0;    /* Secondary text, descriptions, subheadings */
+      --accent-gold: #B5A642;          /* Metallic Brass / Gold primary accent */
+      --accent-gold-hover: #c5b64c;    /* Slightly brighter gold for hover states */
+      --accent-cyan: #00FFFF;          /* Subtle Cyan for availability indicator */
+      --divider-line: rgba(255, 255, 255, 0.2); /* 1px 20% opacity white dividers */
+      --border-card-subtle: rgba(255, 255, 255, 0.08); /* Default quiet border */
+      
+      /* Micro-interaction glows and transitions */
+      --gold-glow: 0 0 22px rgba(181, 166, 66, 0.4);
+      --card-hover-shadow: 0 14px 34px rgba(181, 166, 66, 0.14), 0 4px 12px rgba(0, 0, 0, 0.45);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ==========================================================================
+       2. BASE & RESET STYLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-graphite);
+      color: var(--text-warm-white);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-graphite);
+      color: var(--text-warm-white);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    ::selection {
+      background: rgba(181, 166, 66, 0.35);
+      color: var(--text-warm-white);
+    }
+
+    /* Standard container utility */
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    /* Subtle 1px section divider line (opacity 20% white) */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background-color: var(--divider-line);
+      border: none;
+      margin: 0;
+    }
+
+    /* Typography helpers */
+    h1, h2, h3, h4 {
+      color: var(--text-warm-white);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: var(--text-light-silver);
+      font-size: 1.05rem;
+      font-weight: 400;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ==========================================================================
+       3. INTERSECTION OBSERVER ANIMATIONS (fade-in-up)
+       ========================================================================== */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.85s var(--ease-out-expo), transform 0.85s var(--ease-out-expo);
+      will-change: opacity, transform;
+    }
+
+    .fade-in-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered transition delays for fluid visual pacing */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* ==========================================================================
+       4. NAVIGATION (Glassmorphism & Underline Hover Effect)
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(35, 37, 46, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    /* Brand Logo: AG in bold, slightly enlarged text */
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-warm-white);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s ease;
+    }
+
+    .logo-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-gold);
+      border-radius: 50%;
+    }
+
+    .logo:hover {
+      color: var(--accent-gold);
+    }
+
+    /* Nav Links container */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    /* Sleek hover underline effect */
+    .nav-link {
+      position: relative;
+      color: var(--text-light-silver);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.4rem 0;
+      transition: color 0.25s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-gold);
+      transition: width 0.3s var(--ease-out-expo);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-warm-white);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Mobile menu button */
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text-light-silver);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* ==========================================================================
+       5. BUTTON MICRO-INTERACTIONS
+       ========================================================================== */
+    /* Primary Button: Solid #B5A642 with dark text */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background-color: var(--accent-gold);
+      color: var(--bg-graphite);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid var(--accent-gold);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      background-color: var(--accent-gold-hover);
+      box-shadow: var(--gold-glow);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    /* Secondary Button: Transparent with #FDFDFD outline, filling with white on hover */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background-color: transparent;
+      color: var(--text-warm-white);
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-radius: 4px;
+      border: 1px solid var(--text-warm-white);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.25s var(--ease-out-expo), background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      transform: scale(1.05);
+      background-color: var(--text-warm-white);
+      color: var(--bg-graphite);
+      box-shadow: 0 0 20px rgba(253, 253, 253, 0.25);
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.98);
+    }
+
+    /* ==========================================================================
+       6. HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      padding: 6.5rem 0 7.5rem;
+    }
+
+    /* 2-Column layout */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 3.5rem;
+    }
+
+    .hero-greeting {
+      color: var(--accent-gold);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.75rem, 5vw, 4.5rem);
+      line-height: 1.08;
+      margin-bottom: 1rem;
+      color: var(--text-warm-white);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+      font-weight: 500;
+      color: var(--text-light-silver);
+      margin-bottom: 1.5rem;
+      line-height: 1.35;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-light-silver);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    /* Right column: Circular profile image container with subtle gold border & glow */
+    .hero-media {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .profile-photo-box {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      box-shadow: 0 0 28px rgba(181, 166, 66, 0.28);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .profile-photo-box:hover {
+      box-shadow: 0 0 38px rgba(181, 166, 66, 0.45);
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Overlapping #00FFFF Cyan dot with pulsing animation */
+    .cyan-status-dot {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      width: 18px;
+      height: 18px;
+      background-color: var(--accent-cyan);
+      border-radius: 50%;
+      border: 3px solid var(--bg-graphite);
+      box-shadow: 0 0 12px var(--accent-cyan);
+    }
+
+    .cyan-status-dot::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-cyan);
+      animation: pulse-ring 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.9;
+      }
+      70%, 100% {
+        transform: scale(2.4);
+        opacity: 0;
+      }
+    }
+
+    .status-caption {
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-light-silver);
+      font-family: monospace;
+      letter-spacing: 0.03em;
+    }
+
+    /* ==========================================================================
+       7. SECTION 3: THE JOURNEY & EXPERTISE
+       ========================================================================== */
+    .journey-section {
+      padding: 6.5rem 0 7.5rem;
+    }
+
+    .journey-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: flex-start;
+    }
+
+    .section-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-eyebrow-line {
+      width: 24px;
+      height: 1px;
+      background-color: var(--accent-gold);
+    }
+
+    .section-eyebrow-text {
+      color: var(--accent-gold);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .journey-heading {
+      font-size: 2.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .journey-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-light-silver);
+    }
+
+    /* Pill-shaped Skill Tags */
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .skill-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.7rem 1.4rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background-color: rgba(255, 255, 255, 0.03);
+      color: var(--text-warm-white);
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease-out-expo), background-color 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+
+    .skill-pill:hover {
+      border-color: rgba(181, 166, 66, 0.7);
+      box-shadow: 0 0 18px rgba(181, 166, 66, 0.28);
+      background-color: rgba(181, 166, 66, 0.07);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       8. SECTION 4: SELECTED WORKS (3-Column Modern CSS Grid)
+       ========================================================================== */
+    .works-section {
+      padding: 6.5rem 0 7.5rem;
+    }
+
+    .works-heading {
+      font-size: 2.4rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    /* Portfolio Cards */
+    .portfolio-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-card-subtle);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s var(--ease-out-expo);
+    }
+
+    .portfolio-card:hover {
+      border-color: rgba(181, 166, 66, 0.45);
+      box-shadow: var(--card-hover-shadow);
+      transform: translateY(-5px);
+    }
+
+    .card-media-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background-color: #1c1e24;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.5s var(--ease-out-expo);
+      display: block;
+    }
+
+    .portfolio-card:hover .card-img {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-warm-white);
+      transition: color 0.25s ease;
+    }
+
+    .portfolio-card:hover .card-title {
+      color: var(--accent-gold);
+    }
+
+    .card-description {
+      font-size: 0.95rem;
+      color: var(--text-light-silver);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-footer {
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-tag {
+      font-size: 0.75rem;
+      font-family: monospace;
+      padding: 0.3rem 0.65rem;
+      background-color: var(--bg-graphite);
+      color: var(--text-light-silver);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      transition: border-color 0.25s ease;
+    }
+
+    .portfolio-card:hover .card-tag {
+      border-color: rgba(181, 166, 66, 0.3);
+    }
+
+    /* ==========================================================================
+       9. SECTION 5: IMPACT & METRICS (Flexbox Row, Spaced Evenly)
+       ========================================================================== */
+    .metrics-section {
+      padding: 5.5rem 0 6.5rem;
+    }
+
+    .metrics-flex-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .metric-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .metric-value {
+      font-size: clamp(3rem, 5.5vw, 4.5rem);
+      font-weight: 700;
+      color: var(--accent-gold);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-label {
+      font-size: 1rem;
+      color: var(--text-light-silver);
+      max-width: 250px;
+      line-height: 1.45;
+    }
+
+    /* ==========================================================================
+       10. SECTION 6: CONTACT & FOOTER
+       ========================================================================== */
+    .contact-section {
+      padding: 6.5rem 0 6rem;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .contact-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--text-warm-white);
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-light-silver);
+    }
+
+    /* Minimalist form: bottom borders only */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .field-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light-silver);
+    }
+
+    .minimal-input {
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid var(--text-light-silver);
+      padding: 0.85rem 0;
+      color: var(--text-warm-white);
+      font-size: 1.05rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      border-radius: 0;
+    }
+
+    .minimal-input::placeholder {
+      color: #6b6e7f;
+      font-size: 0.95rem;
+    }
+
+    .minimal-input:focus {
+      border-bottom-color: var(--accent-gold);
+      box-shadow: 0 1px 0 0 var(--accent-gold);
+    }
+
+    .minimal-textarea {
+      resize: none;
+    }
+
+    .form-submit-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    /* Form Feedback state */
+    .form-success-banner {
+      display: none;
+      padding: 2.5rem;
+      background-color: var(--bg-card);
+      border: 1px solid rgba(181, 166, 66, 0.4);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .form-success-banner.active {
+      display: block;
+    }
+
+    /* Footer styles */
+    .site-footer {
+      padding: 2.5rem 0 3.5rem;
+      background-color: var(--bg-graphite);
+    }
+
+    .footer-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--text-light-silver);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-link {
+      color: var(--text-light-silver);
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--accent-gold);
+    }
+
+    /* ==========================================================================
+       11. RESPONSIVE MEDIA QUERIES
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-media {
+        justify-content: center;
+      }
+
+      .journey-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .works-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .works-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-flex-row {
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .form-submit-row {
+        justify-content: stretch;
+      }
+
+      .form-submit-row .btn-primary {
+        width: 100%;
+      }
+
+      .footer-flex {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      /* Mobile Navigation drawer */
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background-color: rgba(35, 37, 46, 0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-links.mobile-open {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       SECTION 1: NAVIGATION
+       Sticky top navbar with dark blur/glassmorphism effect
+       ========================================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <!-- Left: Logo "AG" in bold, slightly enlarged text -->
+      <a href="#home" class="logo" aria-label="Alejandro Garcia Portfolio Home">
+        <span>AG</span>
+        <span class="logo-dot"></span>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Right/Center: Links with sleek hover underline effect -->
+      <ul class="nav-links" id="nav-links-list">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================================================
+         SECTION 2: HERO SECTION
+         2-column layout (stacks on mobile)
+         ========================================================================== -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+        
+        <!-- Left Column: Bio & Calls-to-Action -->
+        <div class="fade-in-up">
+          <p class="hero-greeting">Hello, my name is</p>
+          <h1 class="hero-title">Alejandro Garcia</h1>
+          <h2 class="hero-subtitle">Software Developer &amp; Cloud Technologist</h2>
+          <p class="hero-description">
+            Building robust full-stack applications, automated cloud pipelines, and efficient system architectures.
+          </p>
+          
+          <div class="hero-actions">
+            <a href="#projects" class="btn-primary">
+              <span>View My Work</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#contact" class="btn-secondary">
+              <span>Get in Touch</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column: Circular Profile Image with Glowing Border & Pulsing Cyan Dot -->
+        <div class="hero-media fade-in-up delay-1">
+          <div>
+            <div class="profile-photo-box" title="Alejandro Garcia">
+              <img 
+                src="./images/profile.jpg" 
+                alt="Alejandro Garcia portrait" 
+                class="profile-photo"
+              >
+              <!-- Small #00FFFF cyan dot with pulsing animation -->
+              <div 
+                class="cyan-status-dot" 
+                role="status" 
+                aria-label="Available for New Projects"
+              ></div>
+            </div>
+            <div class="status-caption">
+              <span style="color: #00FFFF;">●</span>
+              <span>Available for New Projects</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Subtle 1px horizontal divider line (opacity 20% white) -->
+    <hr class="section-divider">
+
+    <!-- ==========================================================================
+         SECTION 3: THE JOURNEY & EXPERTISE
+         2-column layout with academic background and pill-shaped skill tags
+         ========================================================================== -->
+    <section class="journey-section" id="about">
+      <div class="container journey-grid">
+        
+        <!-- Left Column: Academic & Leadership Narrative -->
+        <div class="fade-in-up">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">Background</span>
+          </div>
+          <h2 class="journey-heading">The Journey</h2>
+          <p class="journey-text">
+            Currently studying Computer Science at Carolina University. Blending a strong academic foundation in data structures and algorithms with hands-on experience in cloud infrastructure, system monitoring, and IT support. Serving as President of the Computer Science Club to foster technical growth and community.
+          </p>
+        </div>
+
+        <!-- Right Column: Pill-Shaped Tags with Subtle Border Glow on Hover -->
+        <div class="fade-in-up delay-1">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">Competencies</span>
+          </div>
+          <p style="margin-bottom: 1.25rem; font-size: 0.95rem;">
+            Core engineering specialties, toolchains, and cloud environments:
+          </p>
+          <div class="skills-container">
+            <span class="skill-pill">C++ &amp; Python</span>
+            <span class="skill-pill">AWS &amp; DevOps</span>
+            <span class="skill-pill">Docker &amp; ELK Stack</span>
+            <span class="skill-pill">Full-Stack Web</span>
+            <span class="skill-pill">UI/UX Design</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Subtle 1px horizontal divider line (opacity 20% white) -->
+    <hr class="section-divider">
+
+    <!-- ==========================================================================
+         SECTION 4: SELECTED WORKS
+         Heading: "Selected Works", 3-column CSS Grid
+         ========================================================================== -->
+    <section class="works-section" id="projects">
+      <div class="container">
+        
+        <div class="fade-in-up">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">Featured Work</span>
+          </div>
+          <h2 class="works-heading">Selected Works</h2>
+        </div>
+
+        <!-- 3-Column Modern CSS Grid -->
+        <div class="works-grid">
+          
+          <!-- Card 1: DevOps Datalogger Pipeline -->
+          <article class="portfolio-card fade-in-up delay-1">
+            <div class="card-media-wrapper">
+              <img 
+                src="./images/project1.png" 
+                alt="DevOps Datalogger Pipeline architecture and dashboard" 
+                class="card-img"
+              >
+            </div>
+            <div class="card-content">
+              <div>
+                <h3 class="card-title">DevOps Datalogger Pipeline</h3>
+                <p class="card-description">
+                  Automated build pipeline deployed on an AWS EC2 instance. Configured Docker Compose, Nginx, Elasticsearch, and Kibana for robust system monitoring.
+                </p>
+              </div>
+              <div class="card-footer">
+                <span class="card-tag">AWS</span>
+                <span class="card-tag">Docker</span>
+                <span class="card-tag">ELK</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Supermarket Inventory System -->
+          <article class="portfolio-card fade-in-up delay-2">
+            <div class="card-media-wrapper">
+              <img 
+                src="./images/project2.png" 
+                alt="Supermarket Inventory System C++ FLTK Graphical User Interface" 
+                class="card-img"
+              >
+            </div>
+            <div class="card-content">
+              <div>
+                <h3 class="card-title">Supermarket Inventory System</h3>
+                <p class="card-description">
+                  Custom graphical user interface application built entirely in C++, leveraging the Fast Light Toolkit (FLTK) for efficient, low-overhead inventory management.
+                </p>
+              </div>
+              <div class="card-footer">
+                <span class="card-tag">C++</span>
+                <span class="card-tag">FLTK</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: The Student Empowerment Dashboard -->
+          <article class="portfolio-card fade-in-up delay-3">
+            <div class="card-media-wrapper">
+              <img 
+                src="./images/project3.png" 
+                alt="The Student Empowerment Dashboard UX Interface" 
+                class="card-img"
+              >
+            </div>
+            <div class="card-content">
+              <div>
+                <h3 class="card-title">The Student Empowerment Dashboard</h3>
+                <p class="card-description">
+                  A comprehensive UX case study and full-stack project designed to empower students through an intuitive, data-rich interface and semantic web design.
+                </p>
+              </div>
+              <div class="card-footer">
+                <span class="card-tag">HTML/CSS/JS</span>
+                <span class="card-tag">UI/UX</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Subtle 1px horizontal divider line (opacity 20% white) -->
+    <hr class="section-divider">
+
+    <!-- ==========================================================================
+         SECTION 5: IMPACT & METRICS
+         Layout: Flexbox row, spaced evenly, centered text
+         ========================================================================== -->
+    <section class="metrics-section" id="experience">
+      <div class="container">
+        <div class="metrics-flex-row">
+          
+          <!-- Item 1 -->
+          <div class="metric-item fade-in-up delay-1">
+            <span class="metric-value">Tier 2</span>
+            <span class="metric-label">IT Support &amp; Troubleshooting</span>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="metric-item fade-in-up delay-2">
+            <span class="metric-value">7+</span>
+            <span class="metric-label">Programming Languages &amp; Frameworks</span>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="metric-item fade-in-up delay-3">
+            <span class="metric-value">60+</span>
+            <span class="metric-label">Users Recovered in Rapid Network Resolution</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Subtle 1px horizontal divider line (opacity 20% white) -->
+    <hr class="section-divider">
+
+    <!-- ==========================================================================
+         SECTION 6: CONTACT & FOOTER
+         Heading: "Let's Collaborate." centered
+         Minimalist form with bottom borders only
+         ========================================================================== -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        
+        <div class="contact-header fade-in-up">
+          <div class="section-eyebrow" style="justify-content: center;">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">Get in Touch</span>
+            <span class="section-eyebrow-line"></span>
+          </div>
+          <h2 class="contact-title">Let's Collaborate.</h2>
+          <p class="contact-subtitle">
+            Initiate a dialogue for engineering roles, technical advisory, or cloud systems development.
+          </p>
+        </div>
+
+        <!-- Success Confirmation State -->
+        <div class="form-success-banner" id="form-success">
+          <h3 style="color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 0.5rem;">Inquiry Transmitted</h3>
+          <p style="color: var(--text-light-silver); font-size: 0.95rem;">
+            Thank you for reaching out. Alejandro will review your message and reply promptly.
+          </p>
+        </div>
+
+        <!-- Minimalist Form -->
+        <form class="contact-form fade-in-up delay-1" id="inquiry-form">
+          <!-- Row 1: [ Name ] [ Email ] -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name" class="field-label">Name</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="minimal-input" 
+                placeholder="e.g. Elena Rostova" 
+                required
+              >
+            </div>
+            <div class="form-field">
+              <label for="email" class="field-label">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="minimal-input" 
+                placeholder="e.g. elena@company.com" 
+                required
+              >
+            </div>
+          </div>
+
+          <!-- Row 2: [ Message (Textarea) ] -->
+          <div class="form-field">
+            <label for="message" class="field-label">Message</label>
+            <textarea 
+              id="message" 
+              name="message" 
+              rows="4" 
+              class="minimal-input minimal-textarea" 
+              placeholder="Provide a brief overview of your inquiry or technical project requirements..." 
+              required
+            ></textarea>
+          </div>
+
+          <!-- Submit Button: Solid #B5A642, text "Send Inquiry" -->
+          <div class="form-submit-row">
+            <button type="submit" class="btn-primary" id="submit-btn">
+              <span>Send Inquiry</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER BOTTOM
+       Flex container: Left: "© 2026 Alejandro Garcia. Built with precision."
+       Right: Simple text links for [ GitHub ] [ LinkedIn ] [ Email ]
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-flex">
+        <!-- Left Side Copyright -->
+        <p class="footer-copyright">
+          &copy; 2026 Alejandro Garcia. Built with precision.
+        </p>
+
+        <!-- Right Side Links -->
+        <ul class="footer-links">
+          <li>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+          </li>
+          <li>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+          </li>
+          <li>
+            <a href="mailto:ale.xavier.garcia8@gmail.com" class="footer-link">Email</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT
+       Clean, heavily commented implementation of:
+       1. Intersection Observer for fade-in-up scroll reveal
+       2. Active navigation link tracker
+       3. Mobile navigation drawer toggle
+       4. Form submission handler
+       ========================================================================== -->
+  <script>
+    /**
+     * ALEJANDRO GARCIA PORTFOLIO ENGINE
+     * Implements responsive micro-interactions and scroll observers.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+
+      /* ------------------------------------------------------------------------
+       * 1. INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
+       * Observes all elements marked with `.fade-in-up`. As they cross into the
+       * viewport threshold, adds `.is-visible` to trigger smooth CSS translation.
+       * ------------------------------------------------------------------------ */
+      const animatedElements = document.querySelectorAll('.fade-in-up');
+
+      const observerOptions = {
+        root: null, // Viewport is the default bounding container
+        rootMargin: '0px 0px -40px 0px', // Trigger slightly before full entrance
+        threshold: 0.12 // Element is considered visible once 12% enters view
+      };
+
+      const scrollRevealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            // Unobserve after animating once for optimal performance
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(el => scrollRevealObserver.observe(el));
+
+
+      /* ------------------------------------------------------------------------
+       * 2. ACTIVE NAVIGATION LINK TRACKING ON SCROLL
+       * Dynamically highlights current section nav link with the gold underline.
+       * ------------------------------------------------------------------------ */
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll('section[id]');
+
+      function updateActiveNavLink() {
+        const scrollPosition = window.scrollY + 160;
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          const sectionId = section.getAttribute('id');
+
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${sectionId}`) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateActiveNavLink, { passive: true });
+
+
+      /* ------------------------------------------------------------------------
+       * 3. MOBILE MENU TOGGLE HANDLER
+       * Opens/closes navigation drawer on smaller viewports.
+       * ------------------------------------------------------------------------ */
+      const menuBtn = document.getElementById('menu-toggle-btn');
+      const navList = document.getElementById('nav-links-list');
+
+      if (menuBtn && navList) {
+        menuBtn.addEventListener('click', () => {
+          const isOpen = navList.classList.toggle('mobile-open');
+          menuBtn.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        // Auto-close menu when a nav link is clicked
+        navList.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navList.classList.remove('mobile-open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+
+
+      /* ------------------------------------------------------------------------
+       * 4. CONTACT FORM VALIDATION & SUBMISSION SIMULATION
+       * Clean submission micro-interaction with user feedback banner.
+       * ------------------------------------------------------------------------ */
+      const contactForm = document.getElementById('inquiry-form');
+      const successBanner = document.getElementById('form-success');
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (contactForm && successBanner) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          if (!contactForm.checkValidity()) {
+            contactForm.reportValidity();
+            return;
+          }
+
+          // Disable button during submission
+          submitBtn.disabled = true;
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<span>Transmitting...</span>';
+
+          // Simulate network turnaround
+          setTimeout(() => {
+            contactForm.style.display = 'none';
+            successBanner.classList.add('active');
+          }, 650);
+        });
+      }
+
+    });
+  </script>
+</body>
+</html>
