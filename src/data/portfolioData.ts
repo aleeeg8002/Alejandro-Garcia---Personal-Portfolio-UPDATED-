@@ -42,8 +42,8 @@ export const CERTIFICATIONS_DATA: CertificationItem[] = [
     id: 'cert-1',
     title: 'Google IT Support Professional Certificate',
     issuer: 'Google Career Certificates',
-    year: 'Completed Oct 2026',
-    badgeCode: 'Completed Oct 2026',
+    year: 'In Progress (2026)',
+    badgeCode: 'Course 2 of 6',
     credentialUrl: 'https://coursera.org/verify/professional-cert'
   },
   {
@@ -83,10 +83,11 @@ export const EXPERIENCES_DATA: WorkExperience[] = [
     type: 'Industry Experience',
     description: 'Document technical decisions and perform staging verification for a full-stack digital campus platform (React + Vite, PostgreSQL, WebSockets).',
     achievements: [
-      'Documented technical decisions and system issues across a cloud infrastructure migration from Replit to Railway in real-time, maintaining a structured log of blockers, resolutions, and configuration changes to support a development team building a React + Vite and PostgreSQL full-stack digital campus platform.',
+      'Documented system issues and configuration changes during a live cloud infrastructure migration from Replit to Railway.',
+      'Maintained a structured log of blockers, resolutions, and configurations to streamline development for the team.',
       'Executed comprehensive regression testing and staging verification for WebSocket connections, social group chats, voting mechanisms, and QuizPop socket handlers.'
     ],
-    techStack: ['React + Vite', 'PostgreSQL', 'Railway', 'WebSockets', 'Regression Testing', 'Git/GitHub'],
+    techStack: ['React + Vite', 'Tailwind CSS', 'PostgreSQL', 'Railway', 'WebSockets', 'Git/GitHub'],
     isPrimary: true
   },
   {
@@ -99,11 +100,11 @@ export const EXPERIENCES_DATA: WorkExperience[] = [
     type: 'University Employment',
     description: 'Diagnose and resolve Tier 1 hardware, software, networking, and system access issues for 200+ campus end users.',
     achievements: [
-      'Improved first-contact resolution for 200+ end users by triaging and resolving Tier 1 hardware, software, and Microsoft 365 support tickets through Freshdesk, 8x8 calls, and walk-in service, reducing repeat escalations and maximizing system uptime.',
-      'Secured campus access by leading a full building access control migration provisioning and managing user credentials through the Sifely Smart Lock App and reprogramming 17 Sifely Smart Locks to replace legacy biometric scanners with NFC authentication.',
+      'Triaged and resolved Tier 1 & ocassional Tier 2 support tickets for 200+ end-users via Freshdesk and walk-in service, optimizing system uptime.',
+      'Secured campus access by leading a full building migration to modern NFC authentication by provisioning 17 Sifely Smart Locks.',
       'Restored stable Wi-Fi and ethernet connectivity for 60+ residents by diagnosing a switch-level network loop and migrating port configurations to a new VLAN.'
     ],
-    techStack: ['Freshdesk', 'Microsoft 365', '8x8', 'Sifely Smart Lock (NFC)', 'VLAN & Networking', 'Windows 10/11']
+    techStack: ['Freshdesk', 'Hardware Diagnostic', '8x8', 'VLAN & Networking', 'Windows 10/11']
   },
   {
     id: 'cs-president',
@@ -115,10 +116,10 @@ export const EXPERIENCES_DATA: WorkExperience[] = [
     type: 'Leadership & Activities',
     description: 'Direct club operations, technical curriculum, and CTF cybersecurity competition preparations for student technologists.',
     achievements: [
-      'Grew club membership by 70% and led hands-on technical workshops in preparation for a regional Capture-The-Flag (CTF) cybersecurity competition.',
-      'Published fortnightly career roadmap guides to map out progression in diverse roles amongst the Computer Science field, such as a Full-Stack Developer or IT Systems Administrator.'
+      'Grew club active membership by 70% and led technical preparation sessions for regional Capture-The-Flag (CTF) cybersecurity events.',
+      'Curated structured career pathways and technical guides to help students navigate paths in software development and IT infrastructure.'
     ],
-    techStack: ['Capture-The-Flag (CTF)', 'Workshops', 'Technical Roadmaps', 'Community Mentorship']
+    techStack: ['TryHackMe', 'C++', 'Python', 'GitHub','Proactive Community Building','Technical Workshops', 'Leadership']
   },
   {
     id: 'resident-assistant',
@@ -178,7 +179,6 @@ export const SKILL_CATEGORIES_DATA: SkillCategory[] = [
       { name: 'React & Vite', level: 'Proficient', highlight: true },
       { name: 'Tailwind CSS & Design Systems', level: 'Proficient' },
       { name: 'FLTK C++ GUI', level: 'Advanced' },
-      { name: 'RESTful API Architecture', level: 'Proficient' },
       { name: 'Responsive Mobile-First UI/UX', level: 'Advanced' }
     ]
   },
